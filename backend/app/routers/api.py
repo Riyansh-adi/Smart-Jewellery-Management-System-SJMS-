@@ -342,8 +342,8 @@ def rates(db: Database = Depends(get_db), _user=Depends(current_user)):
     return [serialize(x) for x in db.metal_rates.find().sort("recorded_at", -1).limit(20)]
 
 @router.get("/rates/live")
-def live_rates(_user=Depends(current_user)):
-    return get_live_metal_rates()
+def live_rates(db: Database = Depends(get_db), _user=Depends(current_user)):
+    return get_live_metal_rates(db)
 
 @router.post("/rates")
 def add_rate(body: dict, db: Database = Depends(get_db), _user=Depends(ADMIN)):
