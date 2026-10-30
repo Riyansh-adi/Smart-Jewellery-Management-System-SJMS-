@@ -17,6 +17,8 @@ In Atlas, open **Security → Network Access** and allow the outbound IP ranges 
    - `CORS_ORIGINS`: temporarily `http://localhost:5173`; replace it with the deployed Vercel site origin after step 3.
 4. Keep the generated `JWT_SECRET` private. Wait for Render's deploy to finish and copy the service URL, such as `https://sjms-api.onrender.com`.
 
+For the live metal ticker, create an API key with [Metals.Dev](https://metals.dev/), then add `METALS_DEV_API_KEY` in the Render service's **Environment** settings and redeploy. Keep it on Render only; it must not be added to Vercel. The application refreshes the quote feed every five minutes by default (`METALS_RATES_REFRESH_SECONDS=300`). Metals.Dev's free plan currently includes 100 requests per month, which is not enough for continuous five-minute refresh; a 10,000-request plan supports about 8,640 requests for one continuously active service in a 30-day month. Increase the plan or set a longer refresh interval to fit your usage. The widget labels the prices as indicative international spot references, not local jeweller retail prices.
+
 ## 3. Deploy the frontend to Vercel
 
 1. Open the [Vercel Dashboard](https://vercel.com/dashboard) and import the same GitHub repository.

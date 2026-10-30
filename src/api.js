@@ -14,6 +14,7 @@ export const api = {
   create:(key,data)=>request(`/${key}`,{method:'POST',body:JSON.stringify(data)}),
   update:(key,id,data)=>request(`/${key}/${id}`,{method:'PATCH',body:JSON.stringify(data)}),
   settings:()=>request('/settings'), saveSettings:(data)=>request('/settings',{method:'PUT',body:JSON.stringify(data)}),
+  liveMetalRates:()=>request('/rates/live'),
   report:(start,end)=>request(`/reports/summary${start||end?`?${new URLSearchParams({...(start?{start}:{}),...(end?{end}:{})})}`:''}`),
   csv:(start,end)=>request(`/reports/sales.csv${start||end?`?${new URLSearchParams({...(start?{start}:{}),...(end?{end}:{})})}`:''}`),
   downloadInvoice:(id)=>request(`/sales/${id}`),

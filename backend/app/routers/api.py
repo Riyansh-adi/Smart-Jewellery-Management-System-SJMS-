@@ -17,6 +17,7 @@ from app.core.security import current_user, require_roles, verify_password, hash
 from app.db.mongo import get_db, get_client
 from app.schemas.requests import CustomerCreate, SupplierCreate, ProductCreate, SaleCreate, PurchaseCreate, RepairCreate, UserCreate
 from app.services.calculations import money, sale_totals
+from app.services.metal_rates import get_live_metal_rates
 
 router = APIRouter()
 ADMIN = require_roles("admin")
@@ -339,6 +340,10 @@ def put_settings(body: dict, db: Database = Depends(get_db), _user=Depends(ADMIN
 @router.get("/rates")
 def rates(db: Database = Depends(get_db), _user=Depends(current_user)):
     return [serialize(x) for x in db.metal_rates.find().sort("recorded_at", -1).limit(20)]
+
+@router.get("/rates/live")
+def live_rates(_user=Depends(current_user)):
+    return get_live_metal_rates()
 
 @router.post("/rates")
 def add_rate(body: dict, db: Database = Depends(get_db), _user=Depends(ADMIN)):
